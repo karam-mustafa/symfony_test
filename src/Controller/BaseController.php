@@ -2,18 +2,13 @@
 
 namespace App\Controller;
 
-use JetBrains\PhpStorm\NoReturn;
+use App\Helpers\StatusCode;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BaseController extends AbstractController
 {
-    const SERVER_ERROR = 500;
-    const BAD_REQUEST_ERROR = 400;
-    const VALIDATION_ERROR = 422;
-    const NOT_FOUND_PAGE_ERROR = 422;
-
+    use StatusCode;
     /**
      * @var bool
      */
@@ -32,23 +27,6 @@ class BaseController extends AbstractController
     public mixed $data = [];
 
     /**
-     * validate an entity, and throw exception if there is any validation error
-     *
-     * @param $obj
-     * @param ValidatorInterface $validator
-     * @return void
-     * @throws \Exception
-     */
-    #[NoReturn] public function validateEntity($obj, ValidatorInterface $validator)
-    {
-        $errors = $validator->validate($obj);
-        if (count($errors) > 0) {
-            $errorsString = (string)$errors;
-            throw new \Exception($errorsString, static::VALIDATION_ERROR);
-        }
-    }
-
-    /**
      * check if custom entity recorde isset in the database or not.
      *
      * @param $entityClass
@@ -60,7 +38,7 @@ class BaseController extends AbstractController
     {
         $order = $manager->getRepository($entityClass)->find($id);
         if (!$order) {
-            throw new \Exception('No orders found for id ' . $id, static::NOT_FOUND_PAGE_ERROR);
+            throw new \Exception('No orders found for id ' . $id, static::$NOT_FOUND_PAGE_ERROR);
         }
 
         return $order;
@@ -71,7 +49,7 @@ class BaseController extends AbstractController
      */
     public function getStatusCode(): int
     {
-        if ($this->statusCode == 0) return static::SERVER_ERROR;
+        if ($this->statusCode == 0) return static::$SERVER_ERROR;
         return $this->statusCode;
     }
 

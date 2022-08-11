@@ -61,8 +61,7 @@ class OrdersController extends BaseController
             $this->orderItemRepository->fillObject([
                 'quantity' => $item['quantity'],
                 'order' => $this->ordersRepository->getObject(),
-            ]);
-            $this->orderItemRepository->add();
+            ])->add();
         }
     }
 
@@ -109,15 +108,11 @@ class OrdersController extends BaseController
     public function new(Request $request, ValidatorInterface $validator): Response
     {
         try {
-            $data = $this->getRequestParameters($request);
+            $this->ordersRepository->fillObject($this->getRequestParameters($request))
+                ->validateEntity($this->ordersRepository->getObject(), $validator)
+                ->add();
 
-            $this->ordersRepository->fillObject($data);
-
-            $this->validateEntity($this->ordersRepository->getObject(), $validator);
-
-            $this->ordersRepository->add();
-
-            $this->resolveOrderItems($data['items']);
+            $this->resolveOrderItems($this->getRequestParameters($request)['items']);
 
             return $this->setMessage('Created new orders successfully with id ' . $this->ordersRepository->getObject()->getId())->response();
 
@@ -147,19 +142,15 @@ class OrdersController extends BaseController
     {
         try {
 
-            $data = $this->getRequestParameters($request);
-
             $this->checkIfEntityExists($this->entityManager, $this->ordersRepository->determineEntity(), $id);
 
-            $this->ordersRepository->withId($id)->fillObject($data);
-
-            $this->validateEntity($this->ordersRepository->getObject(), $validator);
-
-            $this->ordersRepository->add();
+            $this->ordersRepository->withId($id)->fillObject($this->getRequestParameters($request))
+                ->validateEntity($this->ordersRepository->getObject(), $validator)
+                ->add();
 
             $order = $this->ordersRepository->getObject();
 
-            $this->resolveOrderItems($data['items']);
+            $this->resolveOrderItems($this->getRequestParameters($request)['items']);
 
             return $this->setData($this->getDataFromEntity($order))->response();
 

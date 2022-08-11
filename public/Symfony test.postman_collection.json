@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "ec5c7201-8986-4275-a6e1-57ae7949777e",
+		"name": "Symfony test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "billing_address",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "delivery_address",
+									"value": "test",
+									"type": "text"
+								},
+								{
+									"key": "delivery_time",
+									"value": "2022-08-02 12:12:00",
+									"type": "text"
+								},
+								{
+									"key": "items[0][quantity]",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "items[1][quantity]",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "items[2][quantity]",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "customer_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "28"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "billing_address",
+									"value": "updated",
+									"type": "text"
+								},
+								{
+									"key": "delivery_time",
+									"value": "2022-08-03 12:12:00",
+									"type": "text"
+								},
+								{
+									"key": "delivery_address",
+									"value": "updated",
+									"type": "text"
+								},
+								{
+									"key": "customer_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "items[1][id]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "items[1][quantity]",
+									"value": "2",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/orders/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Details",
+			"item": []
+		}
+	]
+}

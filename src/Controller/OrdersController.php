@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @Route("/api", name="api_")
+ * @Route("/api/v1", name="api_")
  */
 class OrdersController extends BaseController
 {

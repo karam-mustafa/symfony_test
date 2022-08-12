@@ -38,7 +38,7 @@ class OrdersRepository extends BaseRepository
         if (isset($this->customId)) {
             $order = $this->getEntityManager()->find($this->determineEntity(), $this->customId);
         }
-        if (!sizeof($only)){
+        if (!sizeof($only)) {
             $order->setBillingAddress($data['billing_address']);
             $order->setDeliveryAddress($data['delivery_address']);
             $order->setDeliveryTime($data['delivery_time']);
@@ -52,5 +52,19 @@ class OrdersRepository extends BaseRepository
         $this->setObject($order);
 
         return $this;
+    }
+
+    /**
+     * @param array $exceptIds
+     * @return mixed
+     */
+    public function findAllDataGreaterThanCurrentTime(array $exceptIds = []): mixed
+    {
+        $queryBuilder = $this->createQueryBuilder('orders');
+
+        $queryBuilder->where('orders.deliveryTime < CURRENT_DATE()')
+            ->andWhere('orders.id not in (:ids)')->setParameter('ids', $exceptIds);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

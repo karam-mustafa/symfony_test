@@ -93,7 +93,7 @@ class BaseController extends AbstractController
         }
 
         if ($this->getData()) {
-            $toReturn['message'] = $this->getData();
+            $toReturn['data'] = $this->getData();
         }
         return $this->json($toReturn, $this->getStatusCode());
     }

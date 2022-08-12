@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\DelayedOrders;
 use App\Repository\DelayedOrdersRepository;
 use App\Repository\OrdersRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -18,8 +17,6 @@ class VerifyDelayedOrders extends Command
     protected static $defaultName = 'verify:delayed:order';
     private OrdersRepository $ordersRepository;
     private DelayedOrdersRepository $delayedOrdersRepository;
-    private ContainerInterface $container;
-    private $em;
 
     /**
      * @param OrdersRepository $ordersRepository
@@ -35,7 +32,6 @@ class VerifyDelayedOrders extends Command
         parent::__construct($name);
         $this->ordersRepository = $ordersRepository;
         $this->delayedOrdersRepository = $delayedOrdersRepository;
-        $this->container = $container;
     }
 
     protected function configure()
@@ -46,7 +42,6 @@ class VerifyDelayedOrders extends Command
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->em = $this->container->get('doctrine')->getManager();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

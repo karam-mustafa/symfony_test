@@ -14,7 +14,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/orders",
+							"raw": "http://localhost:8000/api/v1/orders",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -22,6 +22,7 @@
 							"port": "8000",
 							"path": [
 								"api",
+								"v1",
 								"orders"
 							]
 						}
@@ -74,7 +75,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/orders",
+							"raw": "http://localhost:8000/api/v1/orders",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -82,6 +83,7 @@
 							"port": "8000",
 							"path": [
 								"api",
+								"v1",
 								"orders"
 							]
 						}
@@ -94,7 +96,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/orders/:id",
+							"raw": "http://localhost:8000/api/v1/orders/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -102,13 +104,14 @@
 							"port": "8000",
 							"path": [
 								"api",
+								"v1",
 								"orders",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "28"
+									"value": "40"
 								}
 							]
 						}
@@ -118,39 +121,14 @@
 				{
 					"name": "Edit",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "billing_address",
-									"value": "updated",
-									"type": "text"
-								},
-								{
-									"key": "delivery_time",
-									"value": "2022-08-03 12:12:00",
-									"type": "text"
-								},
-								{
-									"key": "delivery_address",
-									"value": "updated",
-									"type": "text"
-								},
-								{
-									"key": "customer_id",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "items[1][id]",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "items[1][quantity]",
-									"value": "2",
+									"key": "status",
+									"value": "arrived",
 									"type": "text"
 								}
 							],
@@ -161,7 +139,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/orders/:id",
+							"raw": "http://localhost:8000/api/v1/orders/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -169,6 +147,7 @@
 							"port": "8000",
 							"path": [
 								"api",
+								"v1",
 								"orders",
 								":id"
 							],
@@ -188,7 +167,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/orders/:id",
+							"raw": "http://localhost:8000/api/v1/orders/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -196,6 +175,7 @@
 							"port": "8000",
 							"path": [
 								"api",
+								"v1",
 								"orders",
 								":id"
 							],
@@ -212,8 +192,30 @@
 			]
 		},
 		{
-			"name": "Order Details",
-			"item": []
+			"name": "Delayed orders",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/delayed-orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"delayed-orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

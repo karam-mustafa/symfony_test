@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Orders;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrdersRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,6 +58,8 @@ class OrdersController extends BaseController
      */
     public function resolveOrderItems($items): void
     {
+        if (!sizeof($items ?? [])) return;
+
         foreach ($items as $item) {
             $this->orderItemRepository->fillObject([
                 'quantity' => $item['quantity'],
@@ -75,10 +78,8 @@ class OrdersController extends BaseController
     {
         $data = [
             'id' => $order->getId(),
-            'billing_address' => $order->getBillingAddress(),
-            'delivery_address' => $order->getDeliveryAddress(),
             'delivery_time' => $order->getDeliveryTime(),
-            'customer_id' => $order->getCustomerId(),
+            'status' => $order->getStatus(),
             'items' => [],
         ];
 
@@ -137,16 +138,19 @@ class OrdersController extends BaseController
         }
     }
 
-    #[Route('/orders/{id}', name: 'orders_edit', methods: ['PUT'])]
+    #[Route('/orders/{id}', name: 'orders_edit', methods: ['PATCH'])]
     public function edit(Request $request, ValidatorInterface $validator, int $id): Response
     {
         try {
 
             $this->checkIfEntityExists($this->entityManager, $this->ordersRepository->determineEntity(), $id);
 
-            $this->ordersRepository->withId($id)->fillObject($this->getRequestParameters($request))
-                ->validateEntity($this->ordersRepository->getObject(), $validator)
-                ->add();
+            $this->ordersRepository->withId($id)->fillObject($this->getRequestParameters($request), [
+                [
+                    'func' => 'setStatus',
+                    'value' => $request->get('status'),
+                ]
+            ])->validateEntity($this->ordersRepository->getObject(), $validator)->add();
 
             $order = $this->ordersRepository->getObject();
 

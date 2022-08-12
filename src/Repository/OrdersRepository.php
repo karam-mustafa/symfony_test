@@ -31,18 +31,24 @@ class OrdersRepository extends BaseRepository
      * @param array $data
      * @return $this
      */
-    public function fillObject(array $data = []): OrdersRepository
+    public function fillObject(array $data = [], $only = []): OrdersRepository
     {
         $order = new Orders();
 
         if (isset($this->customId)) {
             $order = $this->getEntityManager()->find($this->determineEntity(), $this->customId);
         }
+        if (!sizeof($only)){
+            $order->setBillingAddress($data['billing_address']);
+            $order->setDeliveryAddress($data['delivery_address']);
+            $order->setDeliveryTime($data['delivery_time']);
+            $order->setCustomerId($data['customer_id'] ?? -1);
+            $order->setStatus(Orders::PENDING_STATUS);
+        }
+        foreach ($only as $item) {
+            $order->{$item['func']}($item['value']);
+        }
 
-        $order->setBillingAddress($data['billing_address']);
-        $order->setDeliveryAddress($data['delivery_address']);
-        $order->setDeliveryTime($data['delivery_time']);
-        $order->setCustomerId($data['customer_id'] ?? -1);
         $this->setObject($order);
 
         return $this;

@@ -38,6 +38,16 @@ class Orders
     #[ORM\OneToMany(mappedBy: 'Orders', targetEntity: OrderItem::class)]
     private Collection $orderItems;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\Choice(
+        choices: ['pending', 'arrived'],
+        message: 'Choose a valid status, it must be in [pending, arrived].',
+    )]
+    private ?string $status = null;
+
+    const PENDING_STATUS = 'pending';
+    const ARRIVED_STATUS = 'arrived';
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -122,6 +132,18 @@ class Orders
                 $orderItem->setQuantity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

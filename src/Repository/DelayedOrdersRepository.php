@@ -43,11 +43,13 @@ class DelayedOrdersRepository extends BaseRepository
     public function fillObject(array $data = [], array $only = []): DelayedOrdersRepository
     {
         $order = new DelayedOrders();
+
         if (!sizeof($only)) {
             $order->setCurrentSystemTime($data['current_system_time']);
             $order->setExpectedTimeDelivery($data['expected_time_delivery']);
             $order->setOrderId($data['order_id']);
         }
+
         foreach ($only as $item) {
             $order->{$item['func']}($item['value']);
         }

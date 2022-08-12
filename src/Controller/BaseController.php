@@ -34,7 +34,7 @@ class BaseController extends AbstractController
      * @return mixed
      * @throws \Exception
      */
-    protected function checkIfEntityExists($manager, $entityClass, $id)
+    protected function checkIfEntityExists($manager, $entityClass, $id): mixed
     {
         $order = $manager->getRepository($entityClass)->find($id);
         if (!$order) {
